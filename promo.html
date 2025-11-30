@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Promo Banners</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1a1a2e;
+      padding: 40px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    h2 {
+      color: #fff;
+      margin: 20px 0 10px;
+      font-weight: 300;
+    }
+
+    .banner {
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+    }
+
+    /* Small Promo 440x280 */
+    .small-promo {
+      width: 440px;
+      height: 280px;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Marquee 1400x560 */
+    .marquee-promo {
+      width: 1400px;
+      height: 560px;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #1a1a2e 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    /* Animated background particles */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .title {
+      font-size: 48px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+      z-index: 10;
+      text-shadow: 0 0 40px rgba(255, 107, 107, 0.3);
+    }
+
+    .marquee-promo .title {
+      font-size: 72px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 15px;
+      z-index: 10;
+      letter-spacing: 2px;
+    }
+
+    .marquee-promo .subtitle {
+      font-size: 28px;
+      margin-top: 20px;
+    }
+
+    .themes {
+      display: flex;
+      gap: 10px;
+      margin-top: 25px;
+      z-index: 10;
+    }
+
+    .marquee-promo .themes {
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .theme-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      position: relative;
+    }
+
+    .marquee-promo .theme-icon {
+      width: 70px;
+      height: 70px;
+      font-size: 32px;
+    }
+
+    .theme-icon::before {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: inherit;
+      filter: blur(10px);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .theme-icon:nth-child(1) { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .theme-icon:nth-child(2) { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .theme-icon:nth-child(3) { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .theme-icon:nth-child(4) { background: linear-gradient(135deg, #fa709a, #fee140); }
+    .theme-icon:nth-child(5) { background: linear-gradient(135deg, #a8edea, #fed6e3); }
+    .theme-icon:nth-child(6) { background: linear-gradient(135deg, #5ee7df, #b490ca); }
+    .theme-icon:nth-child(7) { background: linear-gradient(135deg, #d299c2, #fef9d7); }
+    .theme-icon:nth-child(8) { background: linear-gradient(135deg, #f7971e, #ffd200); }
+
+    .badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .marquee-promo .badge {
+      top: 30px;
+      right: 30px;
+      padding: 12px 24px;
+      font-size: 16px;
+    }
+
+    /* Glow effects */
+    .glow-1 {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+      top: -50px;
+      left: -50px;
+    }
+
+    .glow-2 {
+      position: absolute;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(240, 147, 251, 0.25) 0%, transparent 70%);
+      bottom: -80px;
+      right: -80px;
+    }
+
+    .marquee-promo .glow-1 {
+      width: 400px;
+      height: 400px;
+    }
+
+    .marquee-promo .glow-2 {
+      width: 500px;
+      height: 500px;
+    }
+
+      </style>
+</head>
+<body>
+
+  <h2>Small Promo Tile (440x280) - screenshot this:</h2>
+  <div class="banner small-promo">
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+    <div class="particles">
+      <div class="particle" style="width: 6px; height: 6px; background: #ff6b6b; top: 20%; left: 10%;"></div>
+      <div class="particle" style="width: 4px; height: 4px; background: #4ecdc4; top: 60%; left: 85%;"></div>
+      <div class="particle" style="width: 8px; height: 8px; background: #45b7d1; top: 80%; left: 20%;"></div>
+      <div class="particle" style="width: 5px; height: 5px; background: #feca57; top: 30%; left: 75%;"></div>
+      <div class="particle" style="width: 7px; height: 7px; background: #ff9ff3; top: 70%; left: 50%;"></div>
+    </div>
+    <div class="badge">FREE</div>
+    <div class="title">Amazing New Tab</div>
+    <div class="subtitle">8 ANIMATED THEMES</div>
+    <div class="themes">
+      <div class="theme-icon">✨</div>
+      <div class="theme-icon">🎨</div>
+      <div class="theme-icon">🌌</div>
+      <div class="theme-icon">🌋</div>
+      <div class="theme-icon">🌊</div>
+      <div class="theme-icon">🔮</div>
+      <div class="theme-icon">🌙</div>
+      <div class="theme-icon">⚡</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top: 50px;">Marquee Promo Tile (1400x560) - screenshot this:</h2>
+  <div class="banner marquee-promo">
+    <div class="glow-1"></div>
+    <div class="glow-2"></div>
+    <div class="particles">
+      <div class="particle" style="width: 10px; height: 10px; background: #ff6b6b; top: 15%; left: 8%;"></div>
+      <div class="particle" style="width: 8px; height: 8px; background: #4ecdc4; top: 55%; left: 90%;"></div>
+      <div class="particle" style="width: 12px; height: 12px; background: #45b7d1; top: 75%; left: 15%;"></div>
+      <div class="particle" style="width: 9px; height: 9px; background: #feca57; top: 25%; left: 80%;"></div>
+      <div class="particle" style="width: 11px; height: 11px; background: #ff9ff3; top: 65%; left: 45%;"></div>
+      <div class="particle" style="width: 7px; height: 7px; background: #54a0ff; top: 40%; left: 60%;"></div>
+      <div class="particle" style="width: 6px; height: 6px; background: #5f27cd; top: 85%; left: 70%;"></div>
+    </div>
+    <div class="badge">FREE</div>
+    <div class="title">Amazing New Tab</div>
+    <div class="subtitle">8 STUNNING ANIMATED THEMES</div>
+    <div class="themes">
+      <div class="theme-icon">✨</div>
+      <div class="theme-icon">🎨</div>
+      <div class="theme-icon">🌌</div>
+      <div class="theme-icon">🌋</div>
+      <div class="theme-icon">🌊</div>
+      <div class="theme-icon">🔮</div>
+      <div class="theme-icon">🌙</div>
+      <div class="theme-icon">⚡</div>
+    </div>
+  </div>
+
+</body>
+</html>

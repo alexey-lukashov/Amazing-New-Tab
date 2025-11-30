@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Tab</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      color: white;
+      text-align: center;
+    }
+
+    .shortcuts {
+      margin-top: 100px;
+      display: grid;
+      grid-template-columns: repeat(5, 112px);
+      gap: 16px;
+      justify-content: center;
+    }
+
+    @media (max-width: 700px) {
+      .shortcuts {
+        grid-template-columns: repeat(4, 90px);
+        gap: 12px;
+      }
+    }
+
+    .shortcut {
+      width: 112px;
+      height: 112px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(8px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: white;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .shortcut:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-3px);
+    }
+
+    .shortcut-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+
+    .shortcut-icon img {
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+    }
+
+    .shortcut-name {
+      font-size: 13px;
+      opacity: 0.85;
+      max-width: 100px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .shortcut-add {
+      background: rgba(255, 255, 255, 0.04);
+      border: 2px dashed rgba(255, 255, 255, 0.15);
+    }
+
+    .shortcut-add:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .shortcut-add .shortcut-icon {
+      background: transparent;
+      font-size: 28px;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <div class="content">
+    <div class="shortcuts" id="shortcuts">
+      <!-- Shortcuts will be loaded dynamically -->
+    </div>
+  </div>
+
+  <script src="particles.js"></script>
+  <script src="newtab.js"></script>
+</body>
+</html>

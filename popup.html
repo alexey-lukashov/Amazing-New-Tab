@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazing New Tab</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 280px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: #fff;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 20px;
+      background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 5px;
+    }
+
+    .header p {
+      font-size: 11px;
+      color: #888;
+    }
+
+    .open-tab-btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+      margin-bottom: 15px;
+    }
+
+    .open-tab-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+    }
+
+    .info {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 12px;
+      color: #aaa;
+      line-height: 1.6;
+    }
+
+    .info-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      background: #4ecdc4;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 18px;
+      color: #1a1a2e;
+      font-weight: bold;
+      margin-right: 8px;
+      font-size: 11px;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .feature:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Amazing New Tab</h1>
+    <p>Living New Tab Themes</p>
+  </div>
+
+  <button class="open-tab-btn" id="openTab">Open New Tab</button>
+
+  <div class="info">
+    <div class="feature">
+      <span class="info-icon">7</span>
+      <span>Animated themes</span>
+    </div>
+    <div class="feature">
+      <span class="info-icon">+</span>
+      <span>Interactive mouse effects</span>
+    </div>
+    <div class="feature">
+      <span class="info-icon">+</span>
+      <span>Google search & shortcuts</span>
+    </div>
+    <div class="feature">
+      <span class="info-icon">+</span>
+      <span>Auto-pause when hidden</span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('openTab').addEventListener('click', () => {
+      chrome.tabs.create({});
+    });
+  </script>
+</body>
+</html>

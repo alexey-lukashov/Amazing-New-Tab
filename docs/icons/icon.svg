@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <linearGradient id="particle1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b"/>
+      <stop offset="100%" style="stop-color:#ee5a5a"/>
+    </linearGradient>
+    <linearGradient id="particle2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4ecdc4"/>
+      <stop offset="100%" style="stop-color:#3dbdb5"/>
+    </linearGradient>
+    <linearGradient id="particle3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#45b7d1"/>
+      <stop offset="100%" style="stop-color:#35a7c1"/>
+    </linearGradient>
+    <linearGradient id="particle4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a29bfe"/>
+      <stop offset="100%" style="stop-color:#928bee"/>
+    </linearGradient>
+    <linearGradient id="particle5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#fd79a8"/>
+      <stop offset="100%" style="stop-color:#ed6998"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="128" height="128" rx="20" fill="url(#bg)"/>
+
+  <!-- Connection lines -->
+  <g stroke-opacity="0.3" stroke-width="1">
+    <line x1="30" y1="35" x2="64" y2="64" stroke="#ff6b6b"/>
+    <line x1="64" y1="64" x2="98" y2="45" stroke="#4ecdc4"/>
+    <line x1="64" y1="64" x2="45" y2="95" stroke="#45b7d1"/>
+    <line x1="64" y1="64" x2="95" y2="85" stroke="#a29bfe"/>
+    <line x1="30" y1="35" x2="98" y2="45" stroke="#fd79a8"/>
+  </g>
+
+  <!-- Particles with glow -->
+  <g filter="url(#glow)">
+    <circle cx="30" cy="35" r="8" fill="url(#particle1)"/>
+    <circle cx="98" cy="45" r="10" fill="url(#particle2)"/>
+    <circle cx="64" cy="64" r="12" fill="url(#particle3)"/>
+    <circle cx="45" cy="95" r="7" fill="url(#particle4)"/>
+    <circle cx="95" cy="85" r="9" fill="url(#particle5)"/>
+    <circle cx="25" cy="75" r="5" fill="#ffeaa7"/>
+    <circle cx="85" cy="25" r="6" fill="#00b894"/>
+  </g>
+</svg>

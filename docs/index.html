@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazing New Tab - Chrome Extension</title>
+  <meta name="description" content="Transform your browser with 8 stunning animated themes. Particles, Aurora, Lava Lamp, Ocean, Nebula & more! Note: GPU/CPU intensive animations.">
+  <link rel="icon" type="image/png" sizes="128x128" href="icons/icon128.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="icons/icon48.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a0a1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+      color: #fff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Canvas background */
+    #particles-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Header */
+    header {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 80px 20px 60px;
+    }
+
+    .logo {
+      font-size: 64px;
+      font-weight: 700;
+      background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3, #54a0ff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient 5s ease infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .tagline {
+      font-size: 24px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 18px 50px;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      color: #fff;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50px;
+      box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 50px rgba(102, 126, 234, 0.6);
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: #4ecdc4;
+      border: 1px solid rgba(78, 205, 196, 0.3);
+      margin-top: 20px;
+    }
+
+    /* Features */
+    .features {
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 50px;
+      font-weight: 300;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .feature-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .feature-card p {
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+    }
+
+    /* Themes Section */
+    .themes {
+      position: relative;
+      z-index: 10;
+      padding: 80px 20px;
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    .themes h2 {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+
+    .themes-subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 50px;
+      font-size: 18px;
+    }
+
+    .themes-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 25px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .theme-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      position: relative;
+      animation: pulse 2s ease-in-out infinite;
+      cursor: default;
+      transition: transform 0.3s ease;
+    }
+
+    .theme-icon:hover {
+      transform: scale(1.15);
+    }
+
+    .theme-icon::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: inherit;
+      filter: blur(15px);
+      opacity: 0.5;
+      z-index: -1;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .theme-icon:nth-child(1) { background: linear-gradient(135deg, #667eea, #764ba2); animation-delay: 0s; }
+    .theme-icon:nth-child(2) { background: linear-gradient(135deg, #f093fb, #f5576c); animation-delay: 0.15s; }
+    .theme-icon:nth-child(3) { background: linear-gradient(135deg, #4facfe, #00f2fe); animation-delay: 0.3s; }
+    .theme-icon:nth-child(4) { background: linear-gradient(135deg, #fa709a, #fee140); animation-delay: 0.45s; }
+    .theme-icon:nth-child(5) { background: linear-gradient(135deg, #a8edea, #fed6e3); animation-delay: 0.6s; }
+    .theme-icon:nth-child(6) { background: linear-gradient(135deg, #5ee7df, #b490ca); animation-delay: 0.75s; }
+    .theme-icon:nth-child(7) { background: linear-gradient(135deg, #d299c2, #fef9d7); animation-delay: 0.9s; }
+    .theme-icon:nth-child(8) { background: linear-gradient(135deg, #f7971e, #ffd200); animation-delay: 1.05s; }
+
+    .theme-labels {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      max-width: 800px;
+      margin: 40px auto 0;
+    }
+
+    .theme-label {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Screenshots */
+    .screenshots {
+      position: relative;
+      z-index: 10;
+      padding: 80px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .screenshots h2 {
+      text-align: center;
+      font-size: 42px;
+      margin-bottom: 50px;
+      font-weight: 300;
+    }
+
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+    }
+
+    .screenshot {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease;
+    }
+
+    .screenshot:hover {
+      transform: scale(1.02);
+    }
+
+    .screenshot img {
+      width: 100%;
+      display: block;
+    }
+
+    /* Footer */
+    footer {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    footer p {
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-links a:hover {
+      color: #4ecdc4;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 42px;
+      }
+
+      .tagline {
+        font-size: 18px;
+      }
+
+      .features h2,
+      .themes h2,
+      .screenshots h2 {
+        font-size: 32px;
+      }
+
+      .screenshots-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .theme-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Canvas for particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Header -->
+  <header>
+    <h1 class="logo">Amazing New Tab</h1>
+    <p class="tagline">8 Stunning Animated Themes</p>
+    <a href="https://chrome.google.com/webstore" class="cta-button">Add to Chrome</a>
+    <div class="badge">FREE</div>
+    <p style="margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.5);">⚠️ GPU/CPU intensive animations - may affect battery life on laptops</p>
+  </header>
+
+  <!-- Features -->
+  <section class="features">
+    <h2>Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎨</div>
+        <h3>8 Animated Themes</h3>
+        <p>Choose from Particles, Paint, Aurora, Lava Lamp, Ocean, Nebula, Fireflies, and Grid. Each theme is uniquely crafted with smooth animations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🖱️</div>
+        <h3>Interactive Effects</h3>
+        <p>Every theme responds to your mouse movement. Push particles, create ripples, and interact with the animations.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Top Sites</h3>
+        <p>Quick access shortcuts to your most visited websites, automatically updated based on your browsing history.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔋</div>
+        <h3>Battery Friendly</h3>
+        <p>Animations automatically pause when the tab is hidden, saving your CPU and GPU resources.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Privacy First</h3>
+        <p>No data collection, no tracking, no analytics. Your browsing stays completely private.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Themes -->
+  <section class="themes">
+    <h2>8 Beautiful Themes</h2>
+    <p class="themes-subtitle">Switch between themes with a single click</p>
+    <div class="themes-grid">
+      <div class="theme-icon">✨</div>
+      <div class="theme-icon">🎨</div>
+      <div class="theme-icon">🌌</div>
+      <div class="theme-icon">🌋</div>
+      <div class="theme-icon">🌊</div>
+      <div class="theme-icon">🔮</div>
+      <div class="theme-icon">🌙</div>
+      <div class="theme-icon">⚡</div>
+    </div>
+    <div class="theme-labels">
+      <span class="theme-label">Particles</span>
+      <span class="theme-label">Paint</span>
+      <span class="theme-label">Aurora</span>
+      <span class="theme-label">Lava Lamp</span>
+      <span class="theme-label">Ocean</span>
+      <span class="theme-label">Nebula</span>
+      <span class="theme-label">Fireflies</span>
+      <span class="theme-label">Grid</span>
+    </div>
+  </section>
+
+  <!-- Screenshots -->
+  <section class="screenshots">
+    <h2>Screenshots</h2>
+    <div class="screenshots-grid">
+      <div class="screenshot">
+        <img src="screenshots/1.png" alt="Amazing New Tab Screenshot 1">
+      </div>
+      <div class="screenshot">
+        <img src="screenshots/2.png" alt="Amazing New Tab Screenshot 2">
+      </div>
+      <div class="screenshot">
+        <img src="screenshots/3.png" alt="Amazing New Tab Screenshot 3">
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Made with love for beautiful browsing</p>
+    <div class="footer-links">
+      <a href="https://chrome.google.com/webstore">Chrome Web Store</a>
+      <a href="https://github.com/alexey-lukashov/Amazing-New-Tab">GitHub</a>
+    </div>
+  </footer>
+
+  <!-- Particles Script -->
+  <script>
+    (function() {
+      'use strict';
+
+      const canvas = document.getElementById('particles-canvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let mouse = { x: null, y: null };
+      let animationId;
+
+      const config = {
+        particleCount: 80,
+        minSize: 2,
+        maxSize: 5,
+        minSpeed: 0.3,
+        maxSpeed: 1.2,
+        colors: [
+          '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7',
+          '#fd79a8', '#a29bfe', '#6c5ce7', '#00b894', '#e17055'
+        ],
+        glowIntensity: 15,
+        connectionDistance: 100,
+        mouseRadius: 120
+      };
+
+      class Particle {
+        constructor() {
+          this.reset();
+        }
+
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.size = Math.random() * (config.maxSize - config.minSize) + config.minSize;
+          this.baseSize = this.size;
+          this.speedX = (Math.random() - 0.5) * config.maxSpeed;
+          this.speedY = (Math.random() - 0.5) * config.maxSpeed;
+          this.color = config.colors[Math.floor(Math.random() * config.colors.length)];
+          this.pulse = Math.random() * Math.PI * 2;
+          this.pulseSpeed = Math.random() * 0.03 + 0.01;
+        }
+
+        update() {
+          this.pulse += this.pulseSpeed;
+          this.size = this.baseSize * (0.8 + Math.sin(this.pulse) * 0.3);
+
+          if (mouse.x !== null) {
+            const dx = mouse.x - this.x;
+            const dy = mouse.y - this.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < config.mouseRadius) {
+              const force = (config.mouseRadius - distance) / config.mouseRadius;
+              const angle = Math.atan2(dy, dx);
+              this.speedX -= Math.cos(angle) * force * 0.6;
+              this.speedY -= Math.sin(angle) * force * 0.6;
+            }
+          }
+
+          this.x += this.speedX;
+          this.y += this.speedY;
+          this.speedX *= 0.99;
+          this.speedY *= 0.99;
+          this.speedX += (Math.random() - 0.5) * 0.04;
+          this.speedY += (Math.random() - 0.5) * 0.04;
+
+          const speed = Math.sqrt(this.speedX ** 2 + this.speedY ** 2);
+          if (speed > config.maxSpeed) {
+            this.speedX = (this.speedX / speed) * config.maxSpeed;
+            this.speedY = (this.speedY / speed) * config.maxSpeed;
+          }
+          if (speed < config.minSpeed) {
+            const angle = Math.random() * Math.PI * 2;
+            this.speedX += Math.cos(angle) * 0.1;
+            this.speedY += Math.sin(angle) * 0.1;
+          }
+
+          if (this.x < -50) this.x = canvas.width + 50;
+          if (this.x > canvas.width + 50) this.x = -50;
+          if (this.y < -50) this.y = canvas.height + 50;
+          if (this.y > canvas.height + 50) this.y = -50;
+        }
+
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.shadowColor = this.color;
+          ctx.shadowBlur = config.glowIntensity;
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        }
+      }
+
+      function drawConnections() {
+        ctx.lineWidth = 1;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const distSq = dx * dx + dy * dy;
+            const maxDistSq = config.connectionDistance * config.connectionDistance;
+
+            if (distSq < maxDistSq) {
+              const opacity = (1 - Math.sqrt(distSq) / config.connectionDistance) * 0.3;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = particles[i].color + Math.floor(opacity * 255).toString(16).padStart(2, '0');
+              ctx.stroke();
+            }
+          }
+        }
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawConnections();
+        particles.forEach(particle => {
+          particle.update();
+          particle.draw();
+        });
+        animationId = requestAnimationFrame(animate);
+      }
+
+      function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function init() {
+        resize();
+        particles = [];
+        for (let i = 0; i < config.particleCount; i++) {
+          particles.push(new Particle());
+        }
+        animate();
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        particles.forEach(p => {
+          if (p.x > canvas.width) p.x = Math.random() * canvas.width;
+          if (p.y > canvas.height) p.y = Math.random() * canvas.height;
+        });
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener('mouseleave', () => {
+        mouse.x = null;
+        mouse.y = null;
+      });
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          cancelAnimationFrame(animationId);
+        } else {
+          animate();
+        }
+      });
+
+      init();
+    })();
+  </script>
+</body>
+</html>

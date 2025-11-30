@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Icons</title>
+</head>
+<body>
+  <h1>Icon Generator</h1>
+  <p>Right-click on each canvas and "Save Image As" to create the PNG icons.</p>
+
+  <h2>icon16.png</h2>
+  <canvas id="icon16" width="16" height="16"></canvas>
+
+  <h2>icon48.png</h2>
+  <canvas id="icon48" width="48" height="48"></canvas>
+
+  <h2>icon128.png</h2>
+  <canvas id="icon128" width="128" height="128"></canvas>
+
+  <script>
+    function drawIcon(canvas) {
+      const ctx = canvas.getContext('2d');
+      const size = canvas.width;
+      const scale = size / 128;
+
+      // Background gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, size, size);
+      bgGradient.addColorStop(0, '#1a1a2e');
+      bgGradient.addColorStop(1, '#0f3460');
+
+      // Rounded rectangle background
+      const radius = 20 * scale;
+      ctx.beginPath();
+      ctx.moveTo(radius, 0);
+      ctx.lineTo(size - radius, 0);
+      ctx.quadraticCurveTo(size, 0, size, radius);
+      ctx.lineTo(size, size - radius);
+      ctx.quadraticCurveTo(size, size, size - radius, size);
+      ctx.lineTo(radius, size);
+      ctx.quadraticCurveTo(0, size, 0, size - radius);
+      ctx.lineTo(0, radius);
+      ctx.quadraticCurveTo(0, 0, radius, 0);
+      ctx.closePath();
+      ctx.fillStyle = bgGradient;
+      ctx.fill();
+
+      // Particles data
+      const particles = [
+        { x: 30, y: 35, r: 8, color: '#ff6b6b' },
+        { x: 98, y: 45, r: 10, color: '#4ecdc4' },
+        { x: 64, y: 64, r: 12, color: '#45b7d1' },
+        { x: 45, y: 95, r: 7, color: '#a29bfe' },
+        { x: 95, y: 85, r: 9, color: '#fd79a8' },
+        { x: 25, y: 75, r: 5, color: '#ffeaa7' },
+        { x: 85, y: 25, r: 6, color: '#00b894' }
+      ];
+
+      // Draw connections
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.lineWidth = 1 * scale;
+      ctx.beginPath();
+      ctx.moveTo(30 * scale, 35 * scale);
+      ctx.lineTo(64 * scale, 64 * scale);
+      ctx.lineTo(98 * scale, 45 * scale);
+      ctx.moveTo(64 * scale, 64 * scale);
+      ctx.lineTo(45 * scale, 95 * scale);
+      ctx.moveTo(64 * scale, 64 * scale);
+      ctx.lineTo(95 * scale, 85 * scale);
+      ctx.stroke();
+
+      // Draw particles with glow
+      particles.forEach(p => {
+        // Glow
+        const glowGradient = ctx.createRadialGradient(
+          p.x * scale, p.y * scale, 0,
+          p.x * scale, p.y * scale, p.r * scale * 2
+        );
+        glowGradient.addColorStop(0, p.color + '80');
+        glowGradient.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        ctx.arc(p.x * scale, p.y * scale, p.r * scale * 2, 0, Math.PI * 2);
+        ctx.fillStyle = glowGradient;
+        ctx.fill();
+
+        // Core
+        ctx.beginPath();
+        ctx.arc(p.x * scale, p.y * scale, p.r * scale, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+      });
+    }
+
+    drawIcon(document.getElementById('icon16'));
+    drawIcon(document.getElementById('icon48'));
+    drawIcon(document.getElementById('icon128'));
+  </script>
+</body>
+</html>

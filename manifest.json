@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Amazing New Tab",
+  "version": "1.0.0",
+  "description": "8 animated themes for your new tab. GPU intensive - auto-pauses when hidden.",
+  "permissions": ["storage", "topSites"],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "docs/icons/icon16.png",
+      "48": "docs/icons/icon48.png",
+      "128": "docs/icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "docs/icons/icon16.png",
+    "48": "docs/icons/icon48.png",
+    "128": "docs/icons/icon128.png"
+  }
+}
